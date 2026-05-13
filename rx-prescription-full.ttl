@@ -126,11 +126,11 @@ rx:belongsToClass
     rdfs:label  "belongsToClass" ;
     rdfs:comment "Medication → MedicationClass. Supports subsumption m ⊑ s in ZKP circuit." .
 
-rx:subsumes
+rx:isSubtypeOf
     a owl:ObjectProperty, owl:TransitiveProperty ;
     rdfs:domain rx:MedicationClass ;
     rdfs:range  rx:MedicationClass ;
-    rdfs:label  "subsumes" ;
+    rdfs:label  "isSubtypeOf" ;
     rdfs:comment "Ontological hierarchy: s1 ⊑ s2. E.g., Penicillin ⊑ β-lactam (Eq.4). Transitive." .
 
 # ── Lab results ───────────────────────────────────────────────────────────────
@@ -422,7 +422,7 @@ rx:dkgUal
 
 rx:Physician
     a owl:Class ;
-    rdfs:subClassOf mfssia:Agent ;
+    rdfs:subClassOf mfssia:Human ;
     rdfs:subClassOf [
         a owl:Restriction ;
         owl:onProperty mfssia:isRegisteredBy ;
@@ -439,7 +439,7 @@ rx:Physician
 
 rx:Patient
     a owl:Class ;
-    rdfs:subClassOf mfssia:Agent ;
+    rdfs:subClassOf mfssia:Human ;
     rdfs:subClassOf [
         a owl:Restriction ;
         owl:onProperty rx:hasConsent ;
@@ -621,7 +621,7 @@ rx:BetaLactam
 rx:Penicillin
     a rx:MedicationClass, owl:NamedIndividual ;
     rx:medicationName "Penicillin" ;
-    rx:subsumes rx:BetaLactam ;
+    rx:isSubtypeOf rx:BetaLactam ;
     rdfs:label "Penicillin" ;
     rdfs:comment "Penicillin ⊑ β-lactam. Inference rule: Al(p,Penicillin) → Ct(p,β-lactam) (Eq.5)." ;
     skos:exactMatch snomed:764146007 .
@@ -629,7 +629,7 @@ rx:Penicillin
 rx:Amoxicillin
     a rx:MedicationClass, owl:NamedIndividual ;
     rx:medicationName "Amoxicillin" ;
-    rx:subsumes rx:Penicillin ;
+    rx:isSubtypeOf rx:Penicillin ;
     rdfs:label "Amoxicillin" ;
     rdfs:comment "Amoxicillin ⊑ Penicillin ⊑ β-lactam. Contraindicated if Al(p,Penicillin)." .
 
@@ -766,9 +766,15 @@ rx:ConsentPat1
 # ABOX — SECTION 10: EVALUATION CONTEXT Γ
 # ═══════════════════════════════════════════════════════════════════════════════
 
+rx:CredDoc1
+    a mfssia:Authentication, owl:NamedIndividual ;
+    rdfs:label "Credential — doc1" ;
+    rdfs:comment "MFSSIA Authentication credential for doc1. Established after completing PhysicianChallengeSet. cred in Γ." .
+
 rx:EvalCtx_Prescription1
     a rx:EvaluationContext, owl:NamedIndividual ;
     rx:hasDataSource rx:DiagLab1 ;
+    rx:usesCredential rx:CredDoc1 ;
     rx:contextTimestamp "2026-04-08T10:00:00"^^xsd:dateTime ;
     rx:tsAnchor 90 ;
     rdfs:label "Evaluation Context — Prescription 1" ;
