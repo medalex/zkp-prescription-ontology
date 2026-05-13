@@ -237,7 +237,7 @@ rx:stmtHash
     rdfs:domain rx:Prescription ;
     rdfs:range  xsd:string ;
     rdfs:label  "stmtHash" ;
-    rdfs:comment "H(φ+ ∥ policyVersion ∥ nonce). Binds ZKP proof to prescription instance (Eq.14)." .
+    rdfs:comment "H(φ+ ∥ nonce). Binds ZKP proof to prescription instance (Eq.14)." .
 
 rx:proofOutcome
     a owl:DatatypeProperty ;
@@ -252,13 +252,6 @@ rx:nonce
     rdfs:range  xsd:string ;
     rdfs:label  "nonce" ;
     rdfs:comment "Per-prescription unique value in stmtHash. Prevents replay attacks." .
-
-rx:policyVersion
-    a owl:DatatypeProperty ;
-    rdfs:domain rx:ClinicalPolicy ;
-    rdfs:range  xsd:string ;
-    rdfs:label  "policyVersion" ;
-    rdfs:comment "DKG UAL of the governance-approved T snapshot. Embedded in stmtHash." .
 
 # ── Clinical policy Pol(m, t, op, θ) ─────────────────────────────────────────
 
@@ -288,7 +281,7 @@ rx:deltaMax
     rdfs:domain rx:ClinicalPolicy ;
     rdfs:range  xsd:integer ;
     rdfs:label  "deltaMax" ;
-    rdfs:comment "Δmax in seconds. Freshness bound: (tnow - ts) ≤ Δmax." .
+    rdfs:comment "Δmax in seconds. System-wide freshness bound: (tnow - ts) ≤ Δmax. Uniform across all policies." .
 
 # ── Lab result ────────────────────────────────────────────────────────────────
 
@@ -570,7 +563,7 @@ rx:ClinicalPolicy
     ] ;
     ufo:kind "UFO Kind — ClinicalPolicy is a NormativeDescription constraining medication dispensation." ;
     rdfs:label "ClinicalPolicy" ;
-    rdfs:comment "Pol(m,t,op,θ). Published on DKG. policyVersion in stmtHash invalidates proofs on update." .
+    rdfs:comment "Pol(m,t,op,θ). Published on DKG. Freshness enforced via system-wide Δmax." .
 
 rx:EvaluationContext
     a owl:Class ;
@@ -799,7 +792,6 @@ rx:Prescription1
     rx:governedBy rx:PolicyMetforminEGFR ;
     rx:stmtHash "20269...8730" ;
     rx:nonce "42" ;
-    rx:policyVersion "ual:dkg:prescription-policy:v1" ;
     rx:proofOutcome true ;
     rx:prescriptionStatus "VALIDATED" ;
     rx:issuedAt "2026-04-08T10:05:00"^^xsd:dateTime ;
@@ -928,7 +920,6 @@ rx:PolicyMetforminEGFR
     rx:comparisonOperator ">=" ;
     rx:threshold 30 ;
     rx:deltaMax 7776000 ;
-    rx:policyVersion "ual:dkg:prescription-policy:v1" ;
     rdfs:label "Policy: Metformin requires eGFR >= 30" ;
     rdfs:comment "Pol(Metformin, eGFR, >=, 30). ZKP range-check: polOk=1 iff ClinVal(p,eGFR)>=30. Δmax=90d." ;
     prov:generatedAtTime "2026-04-08T00:00:00"^^xsd:dateTime .
@@ -939,10 +930,9 @@ rx:PolicyMetforminPregnancy
     rx:clinicalCondition "pregnancyStatus" ;
     rx:comparisonOperator "=" ;
     rx:threshold 0 ;
-    rx:deltaMax 2592000 ;
-    rx:policyVersion "ual:dkg:prescription-policy:v1" ;
+    rx:deltaMax 7776000 ;
     rdfs:label "Policy: Metformin contraindicated in pregnancy" ;
-    rdfs:comment "Pol(Metformin, pregnancyStatus, =, 0). false=0 (not pregnant). Δmax=30d." .
+    rdfs:comment "Pol(Metformin, pregnancyStatus, =, 0). false=0 (not pregnant). Δmax=90d." .
 
 rx:PolicyAmoxicillinAge
     a rx:ClinicalPolicy, owl:NamedIndividual ;
@@ -950,7 +940,6 @@ rx:PolicyAmoxicillinAge
     rx:clinicalCondition "age" ;
     rx:comparisonOperator ">=" ;
     rx:threshold 2 ;
-    rx:deltaMax 31536000 ;
-    rx:policyVersion "ual:dkg:prescription-policy:v1" ;
+    rx:deltaMax 7776000 ;
     rdfs:label "Policy: Amoxicillin requires age >= 2 years" ;
-    rdfs:comment "Pol(Amoxicillin, age, >=, 2). Δmax=1 year." .
+    rdfs:comment "Pol(Amoxicillin, age, >=, 2). Δmax=90d." .
