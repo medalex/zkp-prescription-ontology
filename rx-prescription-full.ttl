@@ -6,12 +6,12 @@
 #          Using Zero-Knowledge Proofs" (Kormiltsyn, Udokwu, Norta, 2025)
 #
 # How to open in Protégé:
-#   1. File → Open → выбери этот файл
-#   2. Protégé спросит про импорт MFSSIA.owl — укажи локальный путь
-#      или скачай: https://raw.githubusercontent.com/mubashar-iqbal/MFSSIA-ontology/main/MFSSIA.owl
-#   3. Reasoner → Start Reasoner (HermiT или Pellet)
-#   4. Window → Tabs → OntoGraf  (диаграмма связей)
-#      или Window → Tabs → OWLViz (иерархия классов)
+#   1. File → Open → select this file
+#   2. Protégé will prompt for MFSSIA.owl import — provide local path
+#      or download: https://raw.githubusercontent.com/mubashar-iqbal/MFSSIA-ontology/main/MFSSIA.owl
+#   3. Reasoner → Start Reasoner (HermiT or Pellet)
+#   4. Window → Tabs → OntoGraf  (relationship diagram)
+#      or Window → Tabs → OWLViz (class hierarchy)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 @prefix owl:    <http://www.w3.org/2002/07/owl#> .
